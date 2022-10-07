@@ -1,16 +1,29 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import fetchToken from '../Helpers/fetchToken';
 
 class Login extends Component {
   state = {
     name: '',
     email: '',
     isDisabled: true,
+    loading: false,
   };
 
   handleChange = ({ target }) => {
     const { name, value } = target;
     this.setState({ [name]: value });
     this.validation();
+  };
+
+  handleClick = async (event) => {
+    event.preventDefault();
+    const { history } = this.props;
+    this.setState({ loading: true });
+    const retorno = await fetchToken();
+    this.setState({ loading: false });
+    localStorage.setItem('token', retorno);
+    history.push('/games');
   };
 
   validation() {
@@ -25,9 +38,10 @@ class Login extends Component {
   }
 
   render() {
-    const { name, email, isDisabled } = this.state;
+    const { name, email, isDisabled, loading } = this.state;
     return (
       <div>
+        { loading && (<p>loading...</p>) }
         <form>
           <label htmlFor="input-player-name">
             Name:
@@ -51,12 +65,9 @@ class Login extends Component {
           </label>
           <button
             type="submit"
-            // onClick={ (e) => {
-            //   e.preventDefault();
-            //   this.handleClick();
-            // } }
             disabled={ isDisabled }
             data-testid="btn-play"
+            onClick={ (event) => this.handleClick(event) }
           >
             Play
           </button>
@@ -66,3 +77,9 @@ class Login extends Component {
   }
 }
 export default Login;
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
