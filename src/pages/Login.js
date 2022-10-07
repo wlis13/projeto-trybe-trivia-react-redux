@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import fetchToken from '../Helpers/fetchToken';
 import { Link } from 'react-router-dom';
+import fetchToken from '../Helpers/fetchToken';
 
 class Login extends Component {
   state = {
