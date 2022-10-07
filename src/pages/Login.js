@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import fetchToken from '../Helpers/fetchToken';
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
   state = {
@@ -71,6 +72,15 @@ class Login extends Component {
           >
             Play
           </button>
+
+          <Link to="/settings">
+            <button
+              type="button"
+              data-testid="btn-settings"
+            >
+              Settings
+            </button>
+          </Link>
         </form>
       </div>
     );
