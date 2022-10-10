@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import md5 from 'crypto-js/md5';
 import fetchToken from '../Helpers/fetchToken';
+import { saveNamePlayer, convertedGravatarEmail } from '../redux/actions';
 
 class Login extends Component {
   state = {
@@ -18,13 +21,20 @@ class Login extends Component {
   };
 
   handleClick = async (event) => {
+    const { history, dispatch } = this.props;
+    const { email, name } = this.state;
     event.preventDefault();
-    const { history } = this.props;
+
     this.setState({ loading: true });
     const retorno = await fetchToken();
     this.setState({ loading: false });
+
     localStorage.setItem('token', retorno);
-    history.push('/games');
+    history.push('/game');
+
+    dispatch(saveNamePlayer(name));
+    const convertedEmail = md5(email).toString();
+    dispatch(convertedGravatarEmail(convertedEmail));
   };
 
   validation() {
@@ -91,6 +101,7 @@ Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
-export default Login;
+export default connect()(Login);
