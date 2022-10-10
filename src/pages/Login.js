@@ -24,7 +24,7 @@ class Login extends Component {
     const retorno = await fetchToken();
     this.setState({ loading: false });
     localStorage.setItem('token', retorno);
-    history.push('/games');
+    history.push('/game');
   };
 
   validation() {
