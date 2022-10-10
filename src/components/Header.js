@@ -1,11 +1,41 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-export class Header extends Component {
+class Header extends Component {
   render() {
+    const { name, score, gravatarEmail } = this.props;
+
     return (
-      <div>Header</div>
+      <header>
+        <img
+          src={ `https://www.gravatar.com/avatar/${gravatarEmail}` }
+          alt="user-avatar"
+          data-testid="header-profile-picture"
+        />
+        <p
+          data-testid="header-player-name"
+        >
+          { name }
+        </p>
+        <h3
+          data-testid="header-score"
+        >
+          { score }
+        </h3>
+      </header>
     );
   }
 }
 
-export default Header;
+const mapStateToProps = (state) => ({
+  ...state.player,
+});
+
+Header.propTypes = {
+  name: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
+  gravatarEmail: PropTypes.string.isRequired,
+};
+
+export default connect(mapStateToProps)(Header);
