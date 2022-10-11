@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import '../styles/questions.css';
 
 class Questions extends Component {
   state = {
     counter: 0,
     // correctAnswer: 0,
     // incorrectAnswer: 0,
+    clicou: false,
+  };
+
+  handleClick = () => {
+    const { counter } = this.state;
+    this.setState({ clicou: true });
+    const delay = 3000;
+    setTimeout(() => this.setState({ counter: counter + 1, clicou: false }), delay);
   };
 
   // Função Shuffle generica
@@ -28,7 +37,7 @@ class Questions extends Component {
   };
 
   render() {
-    const { counter } = this.state;
+    const { counter, clicou } = this.state;
     const { questions } = this.props;
     const {
       category,
@@ -50,18 +59,22 @@ class Questions extends Component {
         </p>
         <div data-testid="answer-options">
           {
-            randomAnswers.map((answer, index) => (
-              <button
-                type="button"
-                key={ answer }
-                data-testid={ answer === correctAnswer
-                  ? 'correct-answer' : `wrong-answer-${index}` }
-                className={ answer === correctAnswer
-                  ? 'correct_answer' : 'incorrect_answer' }
-              >
-                {this.decodeEntity(answer)}
-              </button>
-            ))
+            randomAnswers.map((answer, index) => {
+              const verificaResposta = answer === correctAnswer
+                ? 'correct_answer' : 'incorrect_answer';
+              return (
+                <button
+                  type="button"
+                  key={ answer }
+                  data-testid={ answer === correctAnswer
+                    ? 'correct-answer' : `wrong-answer-${index}` }
+                  className={ clicou ? verificaResposta : '' }
+                  onClick={ () => this.handleClick() }
+                >
+                  {this.decodeEntity(answer)}
+                </button>
+              );
+            })
           }
         </div>
       </div>
