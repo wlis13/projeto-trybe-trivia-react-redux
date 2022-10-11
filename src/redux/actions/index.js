@@ -1,12 +1,5 @@
-// export const REQUEST_TOKEN = 'REQUEST_TOKEN';
-// export const ERROR_TOKEN = 'ERROR_TOKEN';
-// export const GET_TOKEN = 'GET_TOKEN';
-
-// export const requestToken = () => ({ type: REQUEST_TOKEN });
-
-// export const errorToken = () => ({ type: ERROR_TOKEN });
-
 export const SAVE_NAME_PLAYER = 'SAVE_NAME_PLAYER';
+export const SAVE_TIMER = 'SAVE_TIMER';
 export const CONVERTED_GRAVATAR_EMAIL = 'CONVERTED_GRAVATAR_EMAIL';
 // export const RESPONSE_SUCCES = 'RESPONSE_SUCCES';
 
@@ -15,6 +8,20 @@ export const convertedGravatarEmail = (payload) => ({
   type: CONVERTED_GRAVATAR_EMAIL,
   payload,
 });
+export const saveTimer = (payload) => ({
+  type: SAVE_TIMER,
+  payload,
+});
+
+export function thunkTimer(payload) {
+  return async (dispatch) => {
+    try {
+      dispatch(saveTimer(payload));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
 
 // export const getResult = (payload) => ({ type: RESPONSE_SUCCES, payload });
 

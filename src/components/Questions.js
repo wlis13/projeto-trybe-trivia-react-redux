@@ -4,17 +4,34 @@ import PropTypes from 'prop-types';
 import '../styles/questions.css';
 
 class Questions extends Component {
-  state = {
-    counter: 0,
-    // correctAnswer: 0,
-    // incorrectAnswer: 0,
-    clicou: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      counter: 0,
+      // correctAnswer: 0,
+      // incorrectAnswer: 0,
+      clicou: false,
+      timer: 30,
+    };
+  }
+
+  componentDidMount() {
+    const ONE_SECOND = 1000;
+    this.myInterval = setInterval(() => {
+      this.setState(
+        (prev) => ({ timer: prev.timer > 0 ? prev.timer - 1 : 0 }),
+      );
+    }, ONE_SECOND);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.myInterval);
+  }
 
   handleClick = () => {
     const { counter } = this.state;
     this.setState({ clicou: true });
-    const delay = 3000;
+    const delay = 5000;
     setTimeout(() => this.setState({ counter: counter + 1, clicou: false }), delay);
   };
 
@@ -37,7 +54,7 @@ class Questions extends Component {
   };
 
   render() {
-    const { counter, clicou } = this.state;
+    const { counter, clicou, timer } = this.state;
     const { questions } = this.props;
     const {
       category,
@@ -48,9 +65,13 @@ class Questions extends Component {
 
     const answers = [...incorrectAnswer, correctAnswer];
     const randomAnswers = this.shuffleAnswer(answers);
-
     return (
       <div>
+        <div>
+          <h1>
+            { timer }
+          </h1>
+        </div>
         <h2 data-testid="question-category">
           {this.decodeEntity(category)}
         </h2>
@@ -64,6 +85,7 @@ class Questions extends Component {
                 ? 'correct_answer' : 'incorrect_answer';
               return (
                 <button
+                  disabled={ timer === 0 }
                   type="button"
                   key={ answer }
                   data-testid={ answer === correctAnswer
@@ -91,4 +113,8 @@ Questions.propTypes = {
   }).isRequired).isRequired,
 };
 
-export default connect()(Questions);
+const mapStateToProps = (state) => ({
+  ...state.timerReducer,
+});
+
+export default connect(mapStateToProps)(Questions);
