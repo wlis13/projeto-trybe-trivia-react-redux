@@ -6,22 +6,16 @@ import '../styles/questions.css';
 class Questions extends Component {
   state = {
     counter: 0,
-    correct: null,
     // correctAnswer: 0,
     // incorrectAnswer: 0,
+    clicou: false,
   };
 
-  verifyAnswer = ({ target }) => {
+  handleClick = () => {
     const { counter } = this.state;
-    const { questions } = this.props;
-    const { correct_answer: correctAnswer } = questions[counter];
-
-    if (target.innerText === correctAnswer) {
-      this.setState({ counter: counter + 1, correct: true });
-      return 'correct_answer';
-    }
-    this.setState({ counter: counter + 1 });
-    return 'incorrect_answer';
+    this.setState({ clicou: true });
+    const delay = 3000;
+    setTimeout(() => this.setState({ counter: counter + 1, clicou: false }), delay);
   };
 
   // Função Shuffle generica
@@ -43,7 +37,7 @@ class Questions extends Component {
   };
 
   render() {
-    const { counter } = this.state;
+    const { counter, clicou } = this.state;
     const { questions } = this.props;
     const {
       category,
@@ -65,19 +59,22 @@ class Questions extends Component {
         </p>
         <div data-testid="answer-options">
           {
-            randomAnswers.map((answer, index) => (
-              <button
-                type="button"
-                key={ answer }
-                data-testid={ answer === correctAnswer
-                  ? 'correct-answer' : `wrong-answer-${index}` }
-                className={ answer === correctAnswer
-                  ? 'correct_answer' : 'incorrect_answer' }
-                onClick={ (e) => this.verifyAnswer(e) }
-              >
-                {this.decodeEntity(answer)}
-              </button>
-            ))
+            randomAnswers.map((answer, index) => {
+              const verificaResposta = answer === correctAnswer
+                ? 'correct_answer' : 'incorrect_answer';
+              return (
+                <button
+                  type="button"
+                  key={ answer }
+                  data-testid={ answer === correctAnswer
+                    ? 'correct-answer' : `wrong-answer-${index}` }
+                  className={ clicou ? verificaResposta : '' }
+                  onClick={ () => this.handleClick() }
+                >
+                  {this.decodeEntity(answer)}
+                </button>
+              );
+            })
           }
         </div>
       </div>

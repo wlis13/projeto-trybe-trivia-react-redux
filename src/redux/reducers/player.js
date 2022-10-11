@@ -1,6 +1,5 @@
 import { SAVE_NAME_PLAYER,
   CONVERTED_GRAVATAR_EMAIL,
-  RESPONSE_SUCCES,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -8,7 +7,6 @@ const INITIAL_STATE = {
   assertions: 0,
   score: 0,
   gravatarEmail: '',
-  result: [],
 };
 
 const player = (state = INITIAL_STATE, action) => {
@@ -22,12 +20,6 @@ const player = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       gravatarEmail: action.payload,
-    };
-  case RESPONSE_SUCCES:
-    return {
-      ...state,
-      result: action.payload.results,
-      response_code: action.payload.response_code,
     };
   default:
     return state;

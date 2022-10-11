@@ -8,7 +8,7 @@
 
 export const SAVE_NAME_PLAYER = 'SAVE_NAME_PLAYER';
 export const CONVERTED_GRAVATAR_EMAIL = 'CONVERTED_GRAVATAR_EMAIL';
-export const RESPONSE_SUCCES = 'RESPONSE_SUCCES';
+// export const RESPONSE_SUCCES = 'RESPONSE_SUCCES';
 
 export const saveNamePlayer = (payload) => ({ type: SAVE_NAME_PLAYER, payload });
 export const convertedGravatarEmail = (payload) => ({
