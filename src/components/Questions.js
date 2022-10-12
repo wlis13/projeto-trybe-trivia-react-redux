@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../styles/questions.css';
 import { addScore, falseResponse } from '../redux/actions';
+import Timer from './Timer';
+import NextButton from './NextButton';
 
 class Questions extends Component {
   constructor(props) {
@@ -25,6 +27,14 @@ class Questions extends Component {
     }, ONE_SECOND);
   }
 
+  // componentDidUpdate() {
+  //   const { counter } = this.state;
+  //   const FIVE = 4;
+  //   if (counter > FIVE) {
+  //     history.push('/');
+  //   }
+  // }
+
   componentWillUnmount() {
     clearInterval(this.myInterval);
   }
@@ -43,20 +53,25 @@ class Questions extends Component {
     }
   };
 
+  applyScore = (questions, index, testid, dispatch) => {
+    const number = 10;
+    const { timer } = this.state;
+    const dificulty = questions.map((itens) => itens.difficulty);
+    const scoreState = timer * this.dificultyValue(dificulty[index]) + number;
+
+    if (testid === 'correct-answer') {
+      dispatch(addScore(scoreState));
+    } else { dispatch(falseResponse()); }
+  };
+
   handleClick = (index, event) => {
     const { target } = event;
     const { dataset: { testid } } = target;
     const { questions, dispatch } = this.props;
-    const dificulty = questions.map((itens) => itens.difficulty);
-    const { counter, timer } = this.state;
-    const number = 10;
+
     this.setState({ clicou: true });
-    const delay = 5000;
-    setTimeout(() => this.setState({ counter: counter + 1, clicou: false }), delay);
-    const scoreState = timer * this.dificultyValue(dificulty[index]) + number;
-    if (testid === 'correct-answer') {
-      dispatch(addScore(scoreState));
-    } else { dispatch(falseResponse()); }
+
+    this.applyScore(questions, index, testid, dispatch);
   };
 
   // Função Shuffle generica
@@ -77,6 +92,15 @@ class Questions extends Component {
     return textarea.value;
   };
 
+  nextQuestion = () => {
+    const { counter } = this.state;
+    const { history } = this.props;
+    const FOUR = 4;
+    if (counter === FOUR) history.push('/feedback');
+
+    this.setState({ counter: counter + 1, clicou: false, timer: 30 });
+  };
+
   render() {
     const { counter, clicou, timer } = this.state;
     const { questions } = this.props;
@@ -91,11 +115,7 @@ class Questions extends Component {
     const randomAnswers = this.shuffleAnswer(answers);
     return (
       <div>
-        <div>
-          <h1>
-            { timer }
-          </h1>
-        </div>
+        <Timer counter={ timer } />
         <h2 data-testid="question-category">
           {this.decodeEntity(category)}
         </h2>
@@ -123,6 +143,12 @@ class Questions extends Component {
             })
           }
         </div>
+        {
+          clicou && <NextButton
+            isDisabled={ timer === 0 }
+            onClick={ this.nextQuestion }
+          />
+        }
       </div>
     );
   }
@@ -136,6 +162,9 @@ Questions.propTypes = {
     correct_answer: PropTypes.string,
   }).isRequired).isRequired,
   dispatch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({

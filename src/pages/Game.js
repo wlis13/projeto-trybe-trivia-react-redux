@@ -34,13 +34,14 @@ class Game extends Component {
 
   render() {
     const { questions, isLoading } = this.state;
+    const { history } = this.props;
     return (
       <div>
         <Header />
         {
           isLoading
             ? <p>Loading...</p>
-            : <Questions questions={ questions } />
+            : <Questions history={ history } questions={ questions } />
         }
       </div>
     );
