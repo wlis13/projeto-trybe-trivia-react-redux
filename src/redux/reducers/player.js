@@ -2,6 +2,7 @@ import { SAVE_NAME_PLAYER,
   CONVERTED_GRAVATAR_EMAIL,
   SAVE_SCORE,
   FALSE_RESPONSE,
+  ADD_ASSERTIONS,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -31,6 +32,11 @@ const player = (state = INITIAL_STATE, action) => {
   case FALSE_RESPONSE:
     return {
       ...state,
+    };
+  case ADD_ASSERTIONS:
+    return {
+      ...state,
+      assertions: state.assertions + action.payload,
     };
   default:
     return state;

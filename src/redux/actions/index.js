@@ -3,6 +3,7 @@ export const SAVE_TIMER = 'SAVE_TIMER';
 export const CONVERTED_GRAVATAR_EMAIL = 'CONVERTED_GRAVATAR_EMAIL';
 export const SAVE_SCORE = 'SAVE_SCORE';
 export const FALSE_RESPONSE = 'FALSE_RESPONSE';
+export const ADD_ASSERTIONS = 'SAVE_ASSERTIONS';
 
 export const saveNamePlayer = (payload) => ({ type: SAVE_NAME_PLAYER, payload });
 export const convertedGravatarEmail = (payload) => ({
@@ -21,4 +22,9 @@ export const addScore = (payload) => ({
 
 export const falseResponse = () => ({
   type: FALSE_RESPONSE,
+});
+
+export const addAssertions = (payload) => ({
+  type: ADD_ASSERTIONS,
+  payload,
 });

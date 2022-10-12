@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../styles/questions.css';
-import { addScore, falseResponse } from '../redux/actions';
+import { addScore, falseResponse, addAssertions } from '../redux/actions';
 import Timer from './Timer';
 import NextButton from './NextButton';
 
@@ -61,6 +61,7 @@ class Questions extends Component {
 
     if (testid === 'correct-answer') {
       dispatch(addScore(scoreState));
+      dispatch(addAssertions(1));
     } else { dispatch(falseResponse()); }
   };
 
