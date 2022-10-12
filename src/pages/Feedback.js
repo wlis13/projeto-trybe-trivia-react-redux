@@ -47,6 +47,8 @@ class Feedback extends Component {
           </h4>
         </fieldset>
         <RedirectButton dataTestId="btn-play-again" nameBtn="Play Again" path="/" />
+        <br />
+        <RedirectButton dataTestId="btn-ranking" nameBtn="Ranking" path="/ranking" />
       </>
     );
   }
