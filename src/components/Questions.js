@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../styles/questions.css';
+import { addScore, falseResponse } from '../redux/actions';
 
 class Questions extends Component {
   constructor(props) {
@@ -24,15 +25,45 @@ class Questions extends Component {
     }, ONE_SECOND);
   }
 
+  componentDidUpdate() {
+    const { timer } = this.state;
+    if (timer === 0) {
+      this.setState({ timer: 30 });
+    }
+  }
+
   componentWillUnmount() {
     clearInterval(this.myInterval);
   }
 
-  handleClick = () => {
-    const { counter } = this.state;
+  dificultyValue = (level) => {
+    const NUMBER_HARD = 3;
+    switch (level) {
+    case 'hard':
+      return NUMBER_HARD;
+    case 'medium':
+      return 2;
+    case 'easy':
+      return 1;
+    default:
+      return 0;
+    }
+  };
+
+  handleClick = (index, event) => {
+    const { target } = event;
+    const { className } = target;
+    const { questions, dispatch } = this.props;
+    const dificulty = questions.map((itens) => itens.difficulty);
+    const { counter, timer } = this.state;
+    const number = 10;
     this.setState({ clicou: true });
     const delay = 5000;
     setTimeout(() => this.setState({ counter: counter + 1, clicou: false }), delay);
+    const scoreState = timer * this.dificultyValue(dificulty[index]) + number;
+    if (className === 'correct-answer') {
+      dispatch(addScore(scoreState));
+    } else { dispatch(falseResponse()); }
   };
 
   // Função Shuffle generica
@@ -91,7 +122,7 @@ class Questions extends Component {
                   data-testid={ answer === correctAnswer
                     ? 'correct-answer' : `wrong-answer-${index}` }
                   className={ clicou ? verificaResposta : '' }
-                  onClick={ () => this.handleClick() }
+                  onClick={ (event) => this.handleClick(index, event) }
                 >
                   {this.decodeEntity(answer)}
                 </button>

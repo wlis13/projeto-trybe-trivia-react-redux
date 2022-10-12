@@ -1,7 +1,8 @@
 export const SAVE_NAME_PLAYER = 'SAVE_NAME_PLAYER';
 export const SAVE_TIMER = 'SAVE_TIMER';
 export const CONVERTED_GRAVATAR_EMAIL = 'CONVERTED_GRAVATAR_EMAIL';
-// export const RESPONSE_SUCCES = 'RESPONSE_SUCCES';
+export const SAVE_SCORE = 'SAVE_SCORE';
+export const FALSE_RESPONSE = 'FALSE_RESPONSE';
 
 export const saveNamePlayer = (payload) => ({ type: SAVE_NAME_PLAYER, payload });
 export const convertedGravatarEmail = (payload) => ({
@@ -13,30 +14,11 @@ export const saveTimer = (payload) => ({
   payload,
 });
 
-export function thunkTimer(payload) {
-  return async (dispatch) => {
-    try {
-      dispatch(saveTimer(payload));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-}
+export const addScore = (payload) => ({
+  type: SAVE_SCORE,
+  payload,
+});
 
-// export const getResult = (payload) => ({ type: RESPONSE_SUCCES, payload });
-
-// export function fetchApi() {
-//   return async (dispatch) => {
-//     try {
-//       const magicNum = 5;
-//       const token = localStorage.getItem('token');
-//       const endPoint = `https://opentdb.com/api.php?amount=${magicNum}&token=${token}`;
-//       const response = await fetch(endPoint);
-//       const data = await response.json();
-//       // console.log(data);
-//       dispatch(getResult(data));
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
-// }
+export const falseResponse = () => ({
+  type: FALSE_RESPONSE,
+});
