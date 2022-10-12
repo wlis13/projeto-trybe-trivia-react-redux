@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import RedirectButton from '../components/RedirectButton';
 import Header from '../components/Header';
 
 class Feedback extends Component {
@@ -31,7 +32,7 @@ class Feedback extends Component {
         <Header />
         <h1 data-testid="feedback-text">{feedbackMessage}</h1>
         <fieldset>
-          <legend>Placar</legend>
+          <legend><strong>Placar</strong></legend>
           <h4>
             score:
             <div data-testid="feedback-total-score">
@@ -45,6 +46,7 @@ class Feedback extends Component {
             </div>
           </h4>
         </fieldset>
+        <RedirectButton dataTestId="btn-play-again" nameBtn="Play Again" path="/" />
       </>
     );
   }
