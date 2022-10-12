@@ -25,13 +25,6 @@ class Questions extends Component {
     }, ONE_SECOND);
   }
 
-  componentDidUpdate() {
-    const { timer } = this.state;
-    if (timer === 0) {
-      this.setState({ timer: 30 });
-    }
-  }
-
   componentWillUnmount() {
     clearInterval(this.myInterval);
   }
@@ -52,7 +45,7 @@ class Questions extends Component {
 
   handleClick = (index, event) => {
     const { target } = event;
-    const { className } = target;
+    const { dataset: { testid } } = target;
     const { questions, dispatch } = this.props;
     const dificulty = questions.map((itens) => itens.difficulty);
     const { counter, timer } = this.state;
@@ -61,7 +54,7 @@ class Questions extends Component {
     const delay = 5000;
     setTimeout(() => this.setState({ counter: counter + 1, clicou: false }), delay);
     const scoreState = timer * this.dificultyValue(dificulty[index]) + number;
-    if (className === 'correct-answer') {
+    if (testid === 'correct-answer') {
       dispatch(addScore(scoreState));
     } else { dispatch(falseResponse()); }
   };
@@ -142,6 +135,7 @@ Questions.propTypes = {
     incorrect_answers: PropTypes.arrayOf(PropTypes.string).isRequired,
     correct_answer: PropTypes.string,
   }).isRequired).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
