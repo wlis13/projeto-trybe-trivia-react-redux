@@ -10,10 +10,15 @@ export default function App() {
   return (
     <Switch>
       <Route exact path="/" component={ Login } />
-      <Route path="/game" component={ Game } />
+      {/* <Route path="/game" component={ Game } /> */}
       <Route path="/settings" component={ Settings } />
       <Route path="/feedback" component={ Feedback } />
       <Route path="/ranking" component={ Ranking } />
+      <Route
+        exact
+        path="/game"
+        render={ (prop) => <Game { ...prop } /> }
+      />
     </Switch>
   );
 }
