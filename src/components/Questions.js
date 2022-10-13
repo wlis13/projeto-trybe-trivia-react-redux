@@ -97,9 +97,26 @@ class Questions extends Component {
     const { counter } = this.state;
     const { history } = this.props;
     const FOUR = 4;
-    if (counter === FOUR) history.push('/feedback');
-
+    if (counter === FOUR) {
+      this.setInfoUser();
+      history.push('/feedback');
+    }
     this.setState({ counter: counter + 1, clicou: false, timer: 30 });
+  };
+
+  setInfoUser = () => {
+    let arrayUsers = [];
+    const { name, score } = this.props;
+    const arrayInfoUser = {
+      name,
+      score,
+    };
+    if (localStorage.infoUser) {
+      arrayUsers = JSON.parse(localStorage.getItem('infoUser'));
+    }
+    arrayUsers.push(arrayInfoUser);
+
+    localStorage.infoUser = JSON.stringify(arrayUsers);
   };
 
   render() {
@@ -166,10 +183,13 @@ Questions.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  name: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   ...state.timerReducer,
+  ...state.player,
 });
 
 export default connect(mapStateToProps)(Questions);

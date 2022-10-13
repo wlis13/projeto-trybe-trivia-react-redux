@@ -43,10 +43,15 @@ class Game extends Component {
             ? <p>Loading...</p>
             : <Questions history={ history } questions={ questions } />
         }
+
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  ...state.player,
+});
 
 Game.propTypes = {
   history: PropTypes.shape({
@@ -54,4 +59,4 @@ Game.propTypes = {
   }).isRequired,
 };
 
-export default connect()(Game);
+export default connect(mapStateToProps)(Game);

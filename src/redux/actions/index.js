@@ -4,6 +4,7 @@ export const CONVERTED_GRAVATAR_EMAIL = 'CONVERTED_GRAVATAR_EMAIL';
 export const SAVE_SCORE = 'SAVE_SCORE';
 export const FALSE_RESPONSE = 'FALSE_RESPONSE';
 export const ADD_ASSERTIONS = 'SAVE_ASSERTIONS';
+export const RESET_SCORE = 'RESET_SCORE';
 
 export const saveNamePlayer = (payload) => ({ type: SAVE_NAME_PLAYER, payload });
 export const convertedGravatarEmail = (payload) => ({
@@ -27,4 +28,8 @@ export const falseResponse = () => ({
 export const addAssertions = (payload) => ({
   type: ADD_ASSERTIONS,
   payload,
+});
+
+export const resetScore = () => ({
+  type: RESET_SCORE,
 });

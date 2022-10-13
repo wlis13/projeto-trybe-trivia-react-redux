@@ -3,6 +3,7 @@ import { SAVE_NAME_PLAYER,
   SAVE_SCORE,
   FALSE_RESPONSE,
   ADD_ASSERTIONS,
+  RESET_SCORE,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -37,6 +38,12 @@ const player = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       assertions: state.assertions + action.payload,
+    };
+  case RESET_SCORE:
+    return {
+      ...state,
+      assertions: 0,
+      score: 0,
     };
   default:
     return state;
