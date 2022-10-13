@@ -42,3 +42,4 @@ describe('Testando a página de Feedback', () => {
     expect(assertions.innerHTML).toBe('4');
   });
 });
+// test de requisito 4
