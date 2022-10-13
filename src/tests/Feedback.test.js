@@ -12,8 +12,6 @@ const INITIAL_STATE = {
   },
 };
 
-const initialEntries = ['/ranking'];
-
 describe('Testando a página de Feedback', () => {
   it('Verifica se a página de feedback é renderizada corretamente', () => {
     renderWithRouterAndRedux(<Feedback />);
@@ -31,15 +29,6 @@ describe('Testando a página de Feedback', () => {
     userEvent.click(btnPlayAgain);
     expect(history.location.pathname).toBe('/');
   });
-
-  // it('Verifica funcionamento do botão ranking', () => {
-  //   const { history } = renderWithRouterAndRedux(<Feedback />,INITIAL_STATE, initialEntries);
-
-  //   const ranking = screen.getByRole('button', { name: /ranking/i });
-  //   expect(ranking).toBeInTheDocument();
-
-  //   console.log(history);
-  // });
 
   it('Verificando o placar', () => {
     renderWithRouterAndRedux(<Feedback />, INITIAL_STATE);
