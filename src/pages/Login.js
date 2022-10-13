@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import fetchToken from '../Helpers/fetchToken';
-import { saveNamePlayer, convertedGravatarEmail } from '../redux/actions';
+import { saveNamePlayer, convertedGravatarEmail, resetScore } from '../redux/actions';
 
 class Login extends Component {
   state = {
@@ -14,10 +14,20 @@ class Login extends Component {
     loading: false,
   };
 
+  componentDidMount() {
+    this.randleReset();
+  }
+
   handleChange = ({ target }) => {
     const { name, value } = target;
     this.setState({ [name]: value });
     this.validation();
+  };
+
+  randleReset = () => {
+    const { dispatch } = this.props;
+
+    dispatch(resetScore());
   };
 
   handleClick = async (event) => {

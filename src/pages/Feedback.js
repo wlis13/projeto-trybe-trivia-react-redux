@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import RedirectButton from '../components/RedirectButton';
 import Header from '../components/Header';
-import { resetScore } from '../redux/actions';
 
 class Feedback extends Component {
   state = {
@@ -22,12 +21,6 @@ class Feedback extends Component {
     } else {
       this.setState({ feedbackMessage: 'Well Done!' });
     }
-  };
-
-  randleReset = () => {
-    const { dispatch } = this.props;
-
-    dispatch(resetScore());
   };
 
   render() {
@@ -54,7 +47,6 @@ class Feedback extends Component {
           </h4>
         </fieldset>
         <RedirectButton
-          onclick={ this.randleReset }
           dataTestId="btn-play-again"
           nameBtn="Play Again"
           path="/"
@@ -73,7 +65,7 @@ const mapStateToProps = (state) => ({
 Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
-  dispatch: PropTypes.func.isRequired,
+
 };
 
 export default connect(mapStateToProps)(Feedback);
