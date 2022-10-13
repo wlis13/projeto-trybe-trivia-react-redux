@@ -1,6 +1,6 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 import App from '../App';
 
@@ -44,9 +44,24 @@ describe('Testando a página de Login', () => {
     userEvent.type(inputName, 'Xablau');
     userEvent.type(inputEmail, 'xablau@trybe.com');
 
-    expect(btnPlay).toBeEnabled();
+    // expect(btnPlay).toBeEnabled();
     userEvent.click(btnPlay);
+    waitFor(() => {
+      expect(global.fetch).toBeCalled();
+    });
+  });
 
-    expect(global.fetch).toBeCalled();
+  it('Verifica se clicar no button "play" redireciona para "/game"', () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+    const email = screen.getByTestId('input-gravatar-email');
+    const name = screen.getByTestId('input-player-name');
+    const btnPlay = screen.getByTestId('btn-play');
+
+    userEvent.type(email, 'trybe@trybe.com');
+    userEvent.type(name, 'trybe');
+    userEvent.click(btnPlay);
+    waitFor(() => {
+      expect(history.location.pathname).toBe('/game');
+    });
   });
 });
